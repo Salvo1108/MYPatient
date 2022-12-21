@@ -1,0 +1,4 @@
+flask_pymongo
+flask_bcrypt
+flask_cors
+uuid

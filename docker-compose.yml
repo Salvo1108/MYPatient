@@ -1,0 +1,60 @@
+version: "3.1"
+
+volumes:
+  init-db:
+  data-db:
+
+services:
+  backend:
+    build: ./server
+    command: python -u ./server/app.py
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    links:
+      - mongo
+
+  mongo:
+    image: mongo:4.2
+    restart: always
+    volumes:
+      - ./init-db:/docker-entrypoint-initdb.d
+      - ./data-db:/data/db
+    networks:
+      - mongo-compose-network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: MYPatient_DB
+    ports:
+      - 27017:27017
+
+  mongo-express:
+    image: mongo-express:0.54.0
+    restart: always
+    networks:
+      - mongo-compose-network
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: root
+      ME_CONFIG_MONGODB_SERVER: mongo
+    depends_on:
+      - mongo
+
+  react:
+    build:
+      context: ./client
+    image: react
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - /client/node_modules
+      - ./client:/client
+
+networks:
+  mongo-compose-network:
+    driver: bridge
