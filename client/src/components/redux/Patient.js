@@ -9,8 +9,6 @@ const initialState = {
   number: "",
   email: "",
   resultAllPatient: [],
-  resultFilterPatient: [],
-  isLoadingFilterPatient: false,
   isLoadingAllPatient: false,
   isOkInsertPatient: false,
   isLoading: false,
@@ -22,7 +20,7 @@ export const registerPatient = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       await axios.post(
-        `http://172.20.0.4:5000/inserPatient`,
+        `http://localhost:5000/inserPatient`,
         {
           name: _.name,
           surname: _.surname,
@@ -31,7 +29,12 @@ export const registerPatient = createAsyncThunk(
           number: _.number,
           email: _.email,
         },
-        { headers: { "Content-Type": "application/json" } }
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+          },
+        }
       );
       console.log("Paziente inserito con successo");
     } catch (error) {
@@ -45,8 +48,13 @@ export const AllPatient = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.post(
-        `http://172.20.0.4:5000/foundAllPatient`,
-        { headers: { "Content-Type": "application/json" } }
+        `http://localhost:5000/foundAllPatient`,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+          },
+        }
       );
       return response.data;
     } catch (error) {

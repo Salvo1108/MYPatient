@@ -21,8 +21,6 @@ services:
     volumes:
       - ./init-db:/docker-entrypoint-initdb.d
       - ./data-db:/data/db
-    networks:
-      - mongo-compose-network
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
@@ -33,8 +31,6 @@ services:
   mongo-express:
     image: mongo-express:0.54.0
     restart: always
-    networks:
-      - mongo-compose-network
     ports:
       - 8081:8081
     environment:
@@ -49,12 +45,10 @@ services:
       context: ./client
     image: react
     restart: always
+    environment:
+      CHOKIDAR_USEPOLLING: "true" # changes reload
     ports:
       - "3000:3000"
     volumes:
       - /client/node_modules
       - ./client:/client
-
-networks:
-  mongo-compose-network:
-    driver: bridge

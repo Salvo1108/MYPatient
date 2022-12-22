@@ -56,29 +56,7 @@ const SeePatient = () => {
 
   return (
     <>
-      <div
-        className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
-        style={{
-          minHeight: "350px",
-          backgroundImage:
-            "url(" + require("../../resources/backgroundInsert.jpg") + ")",
-          backgroundSize: "auto",
-          backgroundPosition: "right",
-          backgroundRepeat: "repeat-y",
-        }}
-      >
-        <span className="mask bg-gradient-default opacity-8" />
-        <Container className="d-flex align-items-center" fluid>
-          <Row>
-            <Col lg="7" md="10">
-              <p className="text-white mt-0 mb-5">
-                On this page you can view all patient information
-              </p>
-            </Col>
-          </Row>
-        </Container>
-      </div>
-      <Box sx={{ height: 400, width: "100%" }}>
+      <Box sx={{ height: 600, width: "100%" }}>
         <DataGrid
           rows={resultAllPatient}
           columns={columns}

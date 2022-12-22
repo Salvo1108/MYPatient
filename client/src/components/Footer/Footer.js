@@ -6,12 +6,13 @@ const Footer = () => {
     <>
       <AppBar
         position="static"
+        id="Footer"
         elevation={0}
         component="footer"
         color="default"
       >
         <Toolbar style={{ justifyContent: "center" }}>
-          <Typography variant="body2" id="Footer" color="white" align="center">
+          <Typography variant="body2" color="white" align="center">
             {"Copyright © "} {new Date().getFullYear()}{" "}
             <Link
               color="inherit"

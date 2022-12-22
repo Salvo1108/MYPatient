@@ -13,9 +13,14 @@ const initialState = {
 export const logoutUser = createAsyncThunk("/logout/", async (_, thunkAPI) => {
   try {
     await axios.post(
-      `http://172.20.0.4:5000/logout`,
+      `http://localhost:5000/logout`,
       { token: `${localStorage.getItem("token")}` },
-      { headers: { "Content-Type": "application/json" } }
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+      }
     );
     localStorage.setItem("email", "");
     localStorage.setItem("auth", false);
@@ -28,9 +33,14 @@ export const logoutUser = createAsyncThunk("/logout/", async (_, thunkAPI) => {
 export const loginUser = createAsyncThunk("/login", async (_, thunkAPI) => {
   try {
     const response = await axios.post(
-      `http://172.20.0.4:5000/login`,
+      `http://localhost:5000/login`,
       { email: _.email, password: _.password },
-      { headers: { "Content-Type": "application/json" } }
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+      }
     );
     localStorage.setItem("email", _.email);
     localStorage.setItem("name", response.data.name);

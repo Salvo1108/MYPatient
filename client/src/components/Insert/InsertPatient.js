@@ -1,15 +1,13 @@
 // reactstrap components
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  Input,
-  FormText,
-  Container,
-  Row,
-  Col,
-  Button,
-} from "reactstrap";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import ContactPageIcon from "@mui/icons-material/ContactPage";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
 // core components
 import {
   registerPatient,
@@ -49,142 +47,111 @@ const InsertPatient = () => {
 
   return (
     <>
-      <div
-        className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
-        style={{
-          minHeight: "200px",
-          backgroundImage:
-            "url(" + require("../../resources/backgroundInsert.jpg") + ")",
-          backgroundSize: "auto",
-          backgroundPosition: "right",
-          backgroundRepeat: "repeat-y",
-        }}
-      >
-        <span className="mask bg-gradient-default opacity-8" />
-        <Container className="d-flex align-items-center" fluid>
-          <Row>
-            <Col lg="7" md="10">
-              <p className="text-white mt-0 mb-5">
-                On this page you can enter your patients' information
-              </p>
-            </Col>
-          </Row>
-        </Container>
-      </div>
-      <Container id="InserimentoPazienteTabella">
-        <Row id="TabellaInserimento">
-          <Col className="order-xl-1" xl="8">
-            <Card className="bg-secondary shadow">
-              <CardHeader className="bg-white border-0">
-                <Row className="align-items-center">
-                  <Col xs="8">
-                    <h3 className="mb-0">Patient Information</h3>
-                  </Col>
-                </Row>
-              </CardHeader>
-              <CardBody>
-                <form onSubmit={(event) => insertPatient(event)}>
-                  <div className="pl-lg-4">
-                    <Row>
-                      <Col lg="6">
-                        <FormText id="labelName">Name:</FormText>
-                        <Input
-                          id="name"
-                          className="form-control-alternative"
-                          onChange={(event) =>
-                            dispatch(setName(event.target.value))
-                          }
-                          type="text"
-                          required
-                          name="name"
-                          placeholder="Name"
-                        />
-                      </Col>
-                      <Col lg="6">
-                        <FormText id="labelSurname">Surname:</FormText>
-                        <Input
-                          id="surname"
-                          className="form-control-alternative"
-                          value={surname}
-                          onChange={(event) =>
-                            dispatch(setSurname(event.target.value))
-                          }
-                          type="text"
-                          required
-                          name="surname"
-                          placeholder="Surname"
-                        />
-                      </Col>
-                      <Col lg="6">
-                        <FormText id="labelSex">AMKA:</FormText>
-                        <Input
-                          id="amka"
-                          className="form-control-alternative"
-                          value={amka}
-                          onChange={(event) =>
-                            dispatch(setAMKA(event.target.value))
-                          }
-                          type="number"
-                          required
-                          name="amka"
-                          placeholder="01051119503"
-                        />
-                      </Col>
-                      <Col lg="6">
-                        <FormText id="labelEmail">Email:</FormText>
-                        <Input
-                          id="email"
-                          className="form-control-alternative"
-                          value={email}
-                          onChange={(event) =>
-                            dispatch(setEmail(event.target.value))
-                          }
-                          type="text"
-                          required
-                          name="email"
-                          placeholder="Email"
-                        />
-                      </Col>
-                      <Col lg="6">
-                        <FormText id="labelPhoneNumber">Phone Number:</FormText>
-                        <Input
-                          id="number"
-                          className="form-control-alternative"
-                          value={number}
-                          onChange={(event) =>
-                            dispatch(setNumber(event.target.value))
-                          }
-                          type="number"
-                          required
-                          name="number"
-                          placeholder="Phone Number"
-                        />
-                      </Col>
-                      <Col lg="6">
-                        <FormText id="labelAddress">Address:</FormText>
-                        <Input
-                          id="address"
-                          className="form-control-alternative"
-                          value={address}
-                          onChange={(event) =>
-                            dispatch(setAddress(event.target.value))
-                          }
-                          type="text"
-                          required
-                          name="address"
-                          placeholder="Address"
-                        />
-                      </Col>
-                    </Row>
-                  </div>
-                  <Button type="submit" id="BottoneInsert">
-                    Insert
-                  </Button>
-                </form>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <ContactPageIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Patient Data
+          </Typography>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={insertPatient}
+            sx={{ mt: 3 }}
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  autoComplete="given-name"
+                  name="firstName"
+                  required
+                  fullWidth
+                  value={name}
+                  onChange={(event) => dispatch(setName(event.target.value))}
+                  type="text"
+                  id="firstName"
+                  label="First Name"
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  value={surname}
+                  onChange={(event) => dispatch(setSurname(event.target.value))}
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="amka"
+                  value={amka}
+                  onChange={(event) => dispatch(setAMKA(event.target.value))}
+                  label="AMKA"
+                  name="amka"
+                  type="number"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  value={email}
+                  onChange={(event) => dispatch(setEmail(event.target.value))}
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  value={number}
+                  onChange={(event) => dispatch(setNumber(event.target.value))}
+                  id="number"
+                  label="Number"
+                  type="number"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  value={address}
+                  onChange={(event) => dispatch(setAddress(event.target.value))}
+                  id="address"
+                  label="Address"
+                  name="address"
+                />
+              </Grid>
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Insert
+            </Button>
+          </Box>
+        </Box>
       </Container>
       {isOkInsertPatient && <ToastContainer />}
       {isRejectedInsertPatient && <ToastContainer />}

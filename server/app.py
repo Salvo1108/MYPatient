@@ -1,34 +1,33 @@
 from flask import Flask, jsonify, request, json
-from flask_pymongo import PyMongo
-from bson.objectid import ObjectId
 from bson import json_util
 from datetime import datetime
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 from uuid import uuid4
+from pymongo import MongoClient
 
 app = Flask(__name__)
 
 
-app.config['MONGO_DBNAME'] = 'MYPatient_DB'
-app.config['MONGO_URI'] = 'mongodb://root:root@localhost:27017/'
+client = MongoClient(host="mongo",
+                     port=27017, 
+                     username="root", 
+                     password="root",
+                    authSource="admin")
+db_obj = client["MYPatient_DB"]
 tokenExpires = []
-
-mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
-
 CORS(app)
 
 @app.route('/inserPatient', methods=['GET', 'POST'])
 def register():
-    patient = mongo.db.patient
+    patient = db_obj.patient
     name = request.get_json()['name']
     surname = request.get_json()['surname']
     amka = request.get_json()['amka']
     address = request.get_json()['address']
     number = request.get_json()['number']
     email = request.get_json()['email']
-    # file = request.get_json()['file']
 
     
     created = datetime.utcnow()
@@ -43,7 +42,6 @@ def register():
         'email': email,
         'number': number,
         'address': address,
-        # 'file': file,
         'create': created,
     })
     else:
@@ -55,7 +53,7 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    users = mongo.db.users
+    users = db_obj.users
     email = request.get_json()['email']
     password = request.get_json()['password']
     result = ""
@@ -86,7 +84,7 @@ def logout():
 
 @app.route('/createadmin', methods=['GET', 'POST'])
 def createAdmin():
-    users = mongo.db.users
+    users = db_obj.users
     name = request.get_json()['name']
     surname = request.get_json()['surname']
     email = request.get_json()['email']
@@ -108,14 +106,14 @@ def createAdmin():
     })
     else:
         return "Already registered user", 400
-
-
+    
     return jsonify({'result': "Registered Admin"}),200
+
 
 
 @app.route('/foundAllPatient', methods=['GET', 'POST'])
 def founAllPatient():
-    patient = mongo.db.patient
+    patient = db_obj.patient
     allPazienti = []
 
     result = patient.find()
