@@ -72,10 +72,6 @@
   height: 69px !important;
 }
 
-.css-hip9hq-MuiPaper-root-MuiAppBar-root {
-  background-color: #0d2338 !important;
-}
-
 .bg-secondary.shadow.card {
   width: 150% !important;
   height: 99% !important;
@@ -124,6 +120,7 @@
   padding-left: none !important;
   padding-right: none !important;
   max-width: none !important;
+  background-color: #0d2338 !important;
 }
 
 #divSpace {

@@ -1,8 +1,9 @@
 import * as React from "react";
-
-const name = localStorage.getItem("name");
+import { useDispatch, useSelector } from "react-redux";
 
 function LandingFrameMessage() {
+  const { name } = useSelector((store) => store.auth);
+
   const style = {
     margin: "auto",
     padding: "10% 35% 10% 15%",

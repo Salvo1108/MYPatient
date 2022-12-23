@@ -20,7 +20,7 @@ export const registerPatient = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       await axios.post(
-        `http://localhost:5000/inserPatient`,
+        `http://localhost:5000/api/inserPatient`,
         {
           name: _.name,
           surname: _.surname,
@@ -47,8 +47,9 @@ export const AllPatient = createAsyncThunk(
   "/foundAllPatient",
   async (_, thunkAPI) => {
     try {
-      const response = await axios.post(
-        `http://localhost:5000/foundAllPatient`,
+      const response = await axios.get(
+        `http://localhost:5000/api/foundAllPatient`,
+        {},
         {
           headers: {
             "Access-Control-Allow-Origin": "*",

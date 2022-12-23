@@ -1,10 +1,18 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-// reactstrap components
-import { Container, Row, Col } from "reactstrap";
 // core components
 import { useSelector } from "react-redux";
+
+function generateRandom() {
+  var length = 8,
+    charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+    retVal = "";
+  for (var i = 0, n = charset.length; i < length; ++i) {
+    retVal += charset.charAt(Math.floor(Math.random() * n));
+  }
+  return retVal;
+}
 
 const SeePatient = () => {
   const { resultAllPatient } = useSelector((store) => store.patient);
@@ -60,7 +68,7 @@ const SeePatient = () => {
         <DataGrid
           rows={resultAllPatient}
           columns={columns}
-          getRowId={(row) => row.amka}
+          getRowId={(row) => generateRandom()}
           pageSize={5}
           rowsPerPageOptions={[5]}
           disableSelectionOnClick

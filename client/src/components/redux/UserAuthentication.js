@@ -7,13 +7,14 @@ const initialState = {
   email: localStorage.getItem("email"),
   password: "",
   token: localStorage.getItem("token"),
+  name: localStorage.getItem("name"),
   isRejectedPassword: false,
 };
 
 export const logoutUser = createAsyncThunk("/logout/", async (_, thunkAPI) => {
   try {
     await axios.post(
-      `http://localhost:5000/logout`,
+      `http://localhost:5000/api/logout`,
       { token: `${localStorage.getItem("token")}` },
       {
         headers: {
@@ -33,7 +34,7 @@ export const logoutUser = createAsyncThunk("/logout/", async (_, thunkAPI) => {
 export const loginUser = createAsyncThunk("/login", async (_, thunkAPI) => {
   try {
     const response = await axios.post(
-      `http://localhost:5000/login`,
+      `http://localhost:5000/api/login`,
       { email: _.email, password: _.password },
       {
         headers: {
@@ -70,6 +71,7 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       state.token = localStorage.getItem("token");
       state.email = localStorage.getItem("email");
+      state.name = localStorage.getItem("name");
     },
     [loginUser.pending]: (state, action) => {
       state.isLoading = true;
@@ -84,6 +86,7 @@ const authSlice = createSlice({
       state.token = "";
       state.email = "";
       state.password = "";
+      state.name = "";
     },
     [logoutUser.pending]: (state, action) => {
       state.isLoading = true;

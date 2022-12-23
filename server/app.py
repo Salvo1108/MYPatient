@@ -2,11 +2,14 @@ from flask import Flask, jsonify, request, json
 from bson import json_util
 from datetime import datetime
 from flask_bcrypt import Bcrypt
-from flask_cors import CORS
 from uuid import uuid4
 from pymongo import MongoClient
+from flask_cors import CORS, cross_origin
+
 
 app = Flask(__name__)
+app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app, resources={"/*": {"origins": "http://113.30.151.222:3000"}}, support_credentials=True)
 
 
 client = MongoClient(host="mongo",
@@ -14,12 +17,13 @@ client = MongoClient(host="mongo",
                      username="root", 
                      password="root",
                     authSource="admin")
+
 db_obj = client["MYPatient_DB"]
 tokenExpires = []
 bcrypt = Bcrypt(app)
-CORS(app)
 
-@app.route('/inserPatient', methods=['GET', 'POST'])
+@app.route('/api/inserPatient', methods=['GET', 'POST'])
+@cross_origin(supports_credentials=True)
 def register():
     patient = db_obj.patient
     name = request.get_json()['name']
@@ -51,7 +55,8 @@ def register():
     return jsonify({'result': "Registered Patient"}),200
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/api/login', methods=['GET', 'POST'])
+@cross_origin(supports_credentials=True)
 def login():
     users = db_obj.users
     email = request.get_json()['email']
@@ -75,14 +80,16 @@ def login():
     return result
 
 
-@app.route('/logout', methods=['POST'])
+@app.route('/api/logout', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def logout():
     token = request.get_json()['token']
     tokenExpires.append(token)
     return jsonify({'result': "Access token revoked"}),200
     
 
-@app.route('/createadmin', methods=['GET', 'POST'])
+@app.route('/api/createadmin', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def createAdmin():
     users = db_obj.users
     name = request.get_json()['name']
@@ -111,7 +118,8 @@ def createAdmin():
 
 
 
-@app.route('/foundAllPatient', methods=['GET', 'POST'])
+@app.route('/api/foundAllPatient', methods=['GET'])
+@cross_origin(supports_credentials=True)
 def founAllPatient():
     patient = db_obj.patient
     allPazienti = []
@@ -119,8 +127,10 @@ def founAllPatient():
     result = patient.find()
     for doc in result:
         allPazienti.append(doc)
+    
+    tablePazienti = json_util.dumps(allPazienti)
 
-    return json.loads(json_util.dumps(allPazienti))
+    return jsonify(json.loads(tablePazienti)),200
     
 
 if __name__ == '__main__':
