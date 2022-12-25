@@ -14,7 +14,7 @@ const initialState = {
 export const logoutUser = createAsyncThunk("/logout/", async (_, thunkAPI) => {
   try {
     await axios.post(
-      `http://localhost:5000/api/logout`,
+      `http://113.30.151.222/api/logout`,
       { token: `${localStorage.getItem("token")}` },
       {
         headers: {
@@ -34,7 +34,7 @@ export const logoutUser = createAsyncThunk("/logout/", async (_, thunkAPI) => {
 export const loginUser = createAsyncThunk("/login", async (_, thunkAPI) => {
   try {
     const response = await axios.post(
-      `http://localhost:5000/api/login`,
+      `http://113.30.151.222/api/login`,
       { email: _.email, password: _.password },
       {
         headers: {

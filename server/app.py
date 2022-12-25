@@ -8,7 +8,9 @@ from flask_cors import CORS, cross_origin
 
 
 app = Flask(__name__)
-app.config['CORS_HEADERS'] = 'Content-Type'
+app.config['CORS_HEADERS'] = ['Content-Type, auth']
+app.config['CORS_METHODS'] = ["GET,POST,OPTIONS"]
+app.config['CORS_SUPPORTS_CREDENTIALS'] = True
 cors = CORS(app, resources={"/*": {"origins": "http://113.30.151.222:3000"}}, support_credentials=True)
 
 
@@ -23,7 +25,7 @@ tokenExpires = []
 bcrypt = Bcrypt(app)
 
 @app.route('/api/inserPatient', methods=['GET', 'POST'])
-@cross_origin(supports_credentials=True)
+@cross_origin()
 def register():
     patient = db_obj.patient
     name = request.get_json()['name']
@@ -56,7 +58,7 @@ def register():
 
 
 @app.route('/api/login', methods=['GET', 'POST'])
-@cross_origin(supports_credentials=True)
+@cross_origin()
 def login():
     users = db_obj.users
     email = request.get_json()['email']
@@ -81,7 +83,7 @@ def login():
 
 
 @app.route('/api/logout', methods=['POST'])
-@cross_origin(supports_credentials=True)
+@cross_origin()
 def logout():
     token = request.get_json()['token']
     tokenExpires.append(token)
@@ -89,7 +91,7 @@ def logout():
     
 
 @app.route('/api/createadmin', methods=['POST'])
-@cross_origin(supports_credentials=True)
+@cross_origin()
 def createAdmin():
     users = db_obj.users
     name = request.get_json()['name']
@@ -119,7 +121,7 @@ def createAdmin():
 
 
 @app.route('/api/foundAllPatient', methods=['GET'])
-@cross_origin(supports_credentials=True)
+@cross_origin()
 def founAllPatient():
     patient = db_obj.patient
     allPazienti = []
