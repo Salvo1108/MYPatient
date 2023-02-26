@@ -2,4 +2,4 @@ flask_bcrypt
 flask_pymongo
 flask_cors
 uuid
-pymongo
+flask_jwt_extended

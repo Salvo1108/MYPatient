@@ -1,30 +1,24 @@
 import * as React from "react";
-import { AppBar, Toolbar, Typography, Link } from "@material-ui/core";
+import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
 
-const Footer = () => {
+function Footer() {
   return (
-    <>
-      <AppBar
-        position="static"
-        id="Footer"
-        elevation={0}
-        component="footer"
-        color="default"
+    <Typography
+      variant="body2"
+      id="Footer"
+      color="text.secondary"
+      align="center"
+    >
+      {"Copyright © "} {new Date().getFullYear()}{" "}
+      <Link
+        color="inherit"
+        href="https://www.linkedin.com/in/salvatore-amideo-aa3261126/"
       >
-        <Toolbar style={{ justifyContent: "center" }}>
-          <Typography variant="body2" color="white" align="center">
-            {"Copyright © "} {new Date().getFullYear()}{" "}
-            <Link
-              color="inherit"
-              href="https://www.linkedin.com/in/salvatore-amideo-aa3261126/"
-            >
-              made by Salvatore Amideo
-            </Link>{" "}
-          </Typography>
-        </Toolbar>
-      </AppBar>
-    </>
+        made by Salvatore Amideo
+      </Link>{" "}
+    </Typography>
   );
-};
+}
 
 export default Footer;

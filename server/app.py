@@ -5,12 +5,17 @@ from flask_bcrypt import Bcrypt
 from uuid import uuid4
 from pymongo import MongoClient
 from flask_cors import CORS, cross_origin
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
 
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = ['Content-Type, auth']
 app.config['CORS_METHODS'] = ["GET,POST,OPTIONS"]
 app.config['CORS_SUPPORTS_CREDENTIALS'] = True
+app.config["JWT_SECRET_KEY"] = "cOZGB99{JQ{T*G!V(03^8LwsL*I52"
+jwt = JWTManager(app)
 cors = CORS(app, resources={"/*": {"origins": "http://113.30.151.222:3000"}}, support_credentials=True)
 
 
@@ -21,11 +26,11 @@ client = MongoClient(host="mongo",
                     authSource="admin")
 
 db_obj = client["MYPatient_DB"]
-tokenExpires = []
 bcrypt = Bcrypt(app)
 
 @app.route('/api/inserPatient', methods=['GET', 'POST'])
 @cross_origin()
+@jwt_required()
 def register():
     patient = db_obj.patient
     name = request.get_json()['name']
@@ -69,7 +74,7 @@ def login():
 
     if response:
         if bcrypt.check_password_hash(response['password'], password):
-            access_token = uuid4()
+            access_token = create_access_token(identity=email)
             result = jsonify({'token': access_token, 'name': response['name']})
 
             return result, 200
@@ -77,7 +82,7 @@ def login():
             result = jsonify({'error': "Invalid username and password"})
             return result, 400
     else:
-        result = jsonify({'result': "No Results found"})
+        result = jsonify({'result': "No Results found"}), 400
 
     return result
 
@@ -85,8 +90,6 @@ def login():
 @app.route('/api/logout', methods=['POST'])
 @cross_origin()
 def logout():
-    token = request.get_json()['token']
-    tokenExpires.append(token)
     return jsonify({'result': "Access token revoked"}),200
     
 
@@ -122,6 +125,7 @@ def createAdmin():
 
 @app.route('/api/foundAllPatient', methods=['GET'])
 @cross_origin()
+@jwt_required()
 def founAllPatient():
     patient = db_obj.patient
     allPazienti = []

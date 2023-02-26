@@ -17,7 +17,7 @@ import {
   setAddress,
   setNumber,
   setEmail,
-} from "../redux/Patient";
+} from "../../redux/Patient";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";

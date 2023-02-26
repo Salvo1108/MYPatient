@@ -2,12 +2,12 @@ import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
-  isAuthenticated: localStorage.getItem("auth") === "true",
+  isAuthenticated: false,
   isLoading: false,
-  email: localStorage.getItem("email"),
+  name: "",
+  email: "",
   password: "",
-  token: localStorage.getItem("token"),
-  name: localStorage.getItem("name"),
+  token: "",
   isRejectedPassword: false,
 };
 
@@ -43,12 +43,10 @@ export const loginUser = createAsyncThunk("/login", async (_, thunkAPI) => {
         },
       }
     );
-    localStorage.setItem("email", _.email);
-    localStorage.setItem("name", response.data.name);
-    localStorage.setItem("auth", true);
     localStorage.setItem("token", response.data.token);
     console.log("Login effettuato con successo, token: ", response.data.token);
     localStorage.setItem("expiry", response.data.expiry);
+    return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue("Qualcosa è andato storto");
   }
@@ -69,9 +67,8 @@ const authSlice = createSlice({
     [loginUser.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.isAuthenticated = true;
+      state.name = action.payload.name;
       state.token = localStorage.getItem("token");
-      state.email = localStorage.getItem("email");
-      state.name = localStorage.getItem("name");
     },
     [loginUser.pending]: (state, action) => {
       state.isLoading = true;

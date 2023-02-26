@@ -1,7 +1,8 @@
 import React from "react";
 import { Input, FormText } from "reactstrap";
-import { loginUser, setEmail, setPassword } from "../redux/UserAuthentication";
-import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../redux/UserAuthentication";
+import { useDispatch } from "react-redux";
 import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,14 +12,20 @@ import Grid from "@mui/material/Grid";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import logoMed from "../../resources/Icon_Header.jpg";
 import backgroundMed from "../../resources/Login.jpg";
+import { useState } from "react";
 
 const Login = () => {
-  const { email, password } = useSelector((store) => store.auth);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const doLogin = (e) => {
     e.preventDefault();
     dispatch(loginUser({ email, password }));
+    setTimeout(() => {
+      navigate("/dashboard");
+    }, 500);
   };
 
   const theme = createTheme();
@@ -67,7 +74,7 @@ const Login = () => {
                 id="emailLogin"
                 className="input-transparent pl-3"
                 value={email}
-                onChange={(event) => dispatch(setEmail(event.target.value))}
+                onChange={(event) => setEmail(event.target.value)}
                 type="email"
                 required
                 name="email"
@@ -78,7 +85,7 @@ const Login = () => {
                 id="passwordLogin"
                 className="input-transparent pl-3"
                 value={password}
-                onChange={(event) => dispatch(setPassword(event.target.value))}
+                onChange={(event) => setPassword(event.target.value)}
                 type="password"
                 required
                 name="password"

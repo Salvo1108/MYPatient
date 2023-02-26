@@ -1,18 +1,23 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { Provider } from 'react-redux';
-import './index.css';
-import App from './App';
-import {store} from './store';
-import * as serviceWorker from './serviceWorker';
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { PersistGate } from "redux-persist/integration/react";
+import { Provider } from "react-redux";
+import App from "./App";
+import { persistor, store } from "./store";
+import * as serviceWorker from "./serviceWorker";
+import "./SCSS/app.scss";
 
+const rootElement = document.getElementById("root");
+const root = createRoot(rootElement);
 
-render(
+root.render(
+  <StrictMode>
     <Provider store={store}>
-    <App/>
-    </Provider>,
-  
-  document.getElementById('root')
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>
+  </StrictMode>
 );
 
 serviceWorker.unregister();

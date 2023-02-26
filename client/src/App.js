@@ -1,38 +1,33 @@
-import "./App.css";
 // -- React and related libs
 import React from "react";
-import { Switch, Route, Redirect } from "react-router";
+import { Routes, Route, Navigate } from "react-router";
 import { BrowserRouter } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 // -- Custom Components
-import Login from "./components/Login/Login";
-import Layout from "./components/Layout/Layout";
-import { ToastContainer } from "react-toastify";
+import Login from "./pages/Login/Login";
+import Layout from "./components/Layout";
+import LandingPage from "./pages/LandingPage/LandingPage";
+import InsertPatient from "./pages/Insert/InsertPatient";
+import SeeAllPatient from "./pages/Result/seeAllPatient";
+import RequireAuth from "./redux/RequireAuth";
 
 const App = () => {
-  const { isAuthenticated } = useSelector((store) => store.auth);
-
   return (
     <>
-      <ToastContainer />
       <BrowserRouter>
-        <Switch>
-          {!isAuthenticated ? (
-            <>
-              <Route path={["/", "/login"]} component={Login} />
-            </>
-          ) : (
-            <>
-              <Route path={["/", "/dashboard"]} component={Layout} />
-              <Route
-                path={"/login"}
-                exact
-                render={() => <Redirect to="/dashboard" />}
-              />
-            </>
-          )}
-        </Switch>
+        <Routes>
+          <>
+            <Route path="/login" exact element={<Login />} />
+          </>
+          <Route element={<Layout />}>
+            <Route element={<RequireAuth />}>
+              <Route path="/dashboard" exact element={<LandingPage />} />
+              <Route path="/insert" element={<InsertPatient />} />
+              <Route path="/list" element={<SeeAllPatient />} />
+              <Route path="*" element={<Navigate to="/dashboard" />} />
+            </Route>
+          </Route>
+        </Routes>
       </BrowserRouter>
     </>
   );
