@@ -25,7 +25,7 @@ const Login = () => {
     dispatch(loginUser({ email, password }));
     setTimeout(() => {
       navigate("/dashboard");
-    }, 500);
+    }, 1000);
   };
 
   const theme = createTheme();

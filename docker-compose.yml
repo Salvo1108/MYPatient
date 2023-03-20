@@ -10,7 +10,7 @@ services:
     build: ./server
     command: python -u ./server/app.py
     ports:
-      - "5000:5000"
+      - "5001:5001"
     volumes:
       - .:/app
     links:

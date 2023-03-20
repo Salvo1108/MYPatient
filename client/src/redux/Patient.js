@@ -20,7 +20,7 @@ export const registerPatient = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       await axios.post(
-        `http://113.30.151.222/api/inserPatient`,
+        `http://mypatientcare.eu/api/inserPatient`,
         {
           name: _.name,
           surname: _.surname,
@@ -48,7 +48,7 @@ export const AllPatient = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(
-        `http://113.30.151.222/api/foundAllPatient`,
+        `http://mypatientcare.eu/api/foundAllPatient`,
         {},
         {
           headers: {

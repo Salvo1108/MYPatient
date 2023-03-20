@@ -16,7 +16,7 @@ app.config['CORS_METHODS'] = ["GET,POST,OPTIONS"]
 app.config['CORS_SUPPORTS_CREDENTIALS'] = True
 app.config["JWT_SECRET_KEY"] = "cOZGB99{JQ{T*G!V(03^8LwsL*I52"
 jwt = JWTManager(app)
-cors = CORS(app, resources={"/*": {"origins": "http://113.30.151.222:3000"}}, support_credentials=True)
+cors = CORS(app, resources={r"/*": {"origins": "http://mypatientcare.eu"}})
 
 
 client = MongoClient(host="mongo",
@@ -140,4 +140,4 @@ def founAllPatient():
     
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5001)
