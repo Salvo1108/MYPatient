@@ -10,15 +10,19 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 // core components
 import {
-  registerPatient
+  registerPatient,
 } from "../../redux/Patient";
-import * as React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch} from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const InsertPatient = () => {
-
+  const {
+    isOkInsertPatient,
+    isRejectedInsertPatient,
+  } = useSelector((store) => store.patient);
+  
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [amka, setAMKA] = useState("");
