@@ -27,14 +27,14 @@ const SeePatient = () => {
     {
       field: "name",
       headerName: "Name",
-      minWidth: 325,
+      minWidth: 255,
       type: "string",
       sortable: true,
     },
     {
       field: "surname",
       headerName: "Surname",
-      minWidth: 290,
+      minWidth: 255,
       type: "string",
       sortable: true,
     },
