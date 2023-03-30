@@ -10,13 +10,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 // core components
 import {
-  registerPatient,
-  setName,
-  setSurname,
-  setAMKA,
-  setAddress,
-  setNumber,
-  setEmail,
+  registerPatient
 } from "../../redux/Patient";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,21 +18,24 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const InsertPatient = () => {
-  const {
-    name,
-    surname,
-    amka,
-    address,
-    number,
-    email,
-    isOkInsertPatient,
-    isRejectedInsertPatient,
-  } = useSelector((store) => store.patient);
+
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [amka, setAMKA] = useState("");
+  const [address, setAddress] = useState("");
+  const [number, setNumber] = useState("");
+  const [email, setEmail] = useState("");
   const dispatch = useDispatch();
 
   const insertPatient = (e) => {
     e.preventDefault();
     dispatch(registerPatient({ name, surname, amka, address, number, email }));
+    setName("");
+    setSurname("");
+    setAMKA("");
+    setAddress("");
+    setNumber("");
+    setEmail("");
     toast.success("Successful!");
     if (isRejectedInsertPatient) {
       toast.error("Error!");
@@ -77,7 +74,7 @@ const InsertPatient = () => {
                   required
                   fullWidth
                   value={name}
-                  onChange={(event) => dispatch(setName(event.target.value))}
+                  onChange={(event) => setName(event.target.value)}
                   type="text"
                   id="firstName"
                   label="First Name"
@@ -89,7 +86,7 @@ const InsertPatient = () => {
                   required
                   fullWidth
                   value={surname}
-                  onChange={(event) => dispatch(setSurname(event.target.value))}
+                  onChange={(event) => setSurname(event.target.value)}
                   id="lastName"
                   label="Last Name"
                   name="lastName"
@@ -101,7 +98,7 @@ const InsertPatient = () => {
                   fullWidth
                   id="amka"
                   value={amka}
-                  onChange={(event) => dispatch(setAMKA(event.target.value))}
+                  onChange={(event) => setAMKA(event.target.value)}
                   label="AMKA"
                   name="amka"
                   type="number"
@@ -112,7 +109,7 @@ const InsertPatient = () => {
                   required
                   fullWidth
                   value={email}
-                  onChange={(event) => dispatch(setEmail(event.target.value))}
+                  onChange={(event) => setEmail(event.target.value)}
                   id="email"
                   label="Email Address"
                   name="email"
@@ -124,7 +121,7 @@ const InsertPatient = () => {
                   required
                   fullWidth
                   value={number}
-                  onChange={(event) => dispatch(setNumber(event.target.value))}
+                  onChange={(event) => setNumber(event.target.value)}
                   id="number"
                   label="Number"
                   type="number"
@@ -135,7 +132,7 @@ const InsertPatient = () => {
                   required
                   fullWidth
                   value={address}
-                  onChange={(event) => dispatch(setAddress(event.target.value))}
+                  onChange={(event) => setAddress(event.target.value)}
                   id="address"
                   label="Address"
                   name="address"

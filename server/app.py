@@ -30,7 +30,6 @@ bcrypt = Bcrypt(app)
 
 @app.route('/api/inserPatient', methods=['GET', 'POST'])
 @cross_origin()
-@jwt_required()
 def register():
     patient = db_obj.patient
     name = request.get_json()['name']
@@ -125,7 +124,6 @@ def createAdmin():
 
 @app.route('/api/foundAllPatient', methods=['GET'])
 @cross_origin()
-@jwt_required()
 def founAllPatient():
     patient = db_obj.patient
     allPazienti = []
