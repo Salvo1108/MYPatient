@@ -1,8 +1,8 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
+import {AllPatient} from "../../redux/Patient";
+import { useDispatch, useSelector } from "react-redux";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-// core components
-import { useSelector } from "react-redux";
 
 function generateRandom() {
   var length = 8,
@@ -15,7 +15,13 @@ function generateRandom() {
 }
 
 const SeePatient = () => {
+  useEffect(() => {
+    dispatch(AllPatient());
+  }, [dispatch]);
+
+
   const { resultAllPatient } = useSelector((store) => store.patient);
+  const dispatch = useDispatch();
 
   const columns = [
     {
