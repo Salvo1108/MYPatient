@@ -16,7 +16,7 @@ function LandingFrameMessage() {
 
       <div style={{ "font-size": "36px" }}>
         To begin, choose the operation you want to do by selecting from the menu
-        at the top.
+        at the left.
       </div>
     </div>
   );
